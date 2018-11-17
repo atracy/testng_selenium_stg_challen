@@ -1,13 +1,36 @@
 package Helper;
 
-import java.sql.Driver;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.ie.InternetExplorerDriver;
 
 public class BrowserFactory {
 
+    static WebDriver driver;
 
-    void BrowserFactory(driver){
+    public static WebDriver startBrowser(String browserName, String url){
 
-        System.out.Println("Browser Created");
+        if (browserName.equalsIgnoreCase("chrome"))
+        {
+            System.setProperty("webdriver.chrome.driver", "src\\test\\resources\\chromedriver.exe");
+            driver = new ChromeDriver();
+            System.out.println("chrome Browser Selected");
+        }
+        else if (browserName.equalsIgnoreCase("firefox"))
+        {
+            System.setProperty("webdriver.gecko.driver", "src\\test\\resources\\geckodriver.exe");
+            driver = new FirefoxDriver();
+            System.out.println("Chrome Browser Selected");
+        }
+        else if (browserName.equalsIgnoreCase("ie"))
+        {
+            System.setProperty("webdriver.gecko.driver", "src\\test\\resources\\IEDriverServer32Bit.exe");
+            driver = new InternetExplorerDriver();
+            System.out.println("IE Browser Selected");
+        }
+        driver.manage().window().maximize();
+        driver.get(url);
         return driver;
     }
 
