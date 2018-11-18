@@ -3,12 +3,14 @@ package com.tests.skiutah;
 import Helper.BrowserFactory;
 import com.pages.skiutah.DealsPage;
 import com.pages.skiutah.HomePage;
+import com.pages.skiutah.ResortComparisonPage;
 import com.pages.skiutah.TopNavigation;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
@@ -52,6 +54,19 @@ public class Challenge1OpenSkiUtah {
         DealsPage dealsPage = PageFactory.initElements(driver, DealsPage.class);
         topNavigation.navigateToSubMenu(navigateTo, subMenuNavigateTo);
         dealsPage.VerifyOnDealsPage();
+    }
+
+    //Challenge 4 - Compare Times to get to resort
+    @Test(priority=4)
+    //click on deals page
+    public void AutomationChallenge4(){
+        String navigateTo = "Resorts & Snow";
+        String subMenuNavigateTo = "Resort Comparison";
+        TopNavigation topNavigation = PageFactory.initElements(driver, TopNavigation .class);
+        ResortComparisonPage resortComparisonPage = PageFactory.initElements(driver, ResortComparisonPage.class);
+        topNavigation.navigateToSubMenu(navigateTo, subMenuNavigateTo);
+        resortComparisonPage.selectComparisons(1);
+        System.out.println(resortComparisonPage.getMilesToAirport("Alta Ski Area"));
     }
 
     @AfterTest
