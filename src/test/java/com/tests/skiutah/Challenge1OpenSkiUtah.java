@@ -1,10 +1,7 @@
 package com.tests.skiutah;
 
 import Helper.BrowserFactory;
-import com.pages.skiutah.DealsPage;
-import com.pages.skiutah.HomePage;
-import com.pages.skiutah.ResortComparisonPage;
-import com.pages.skiutah.TopNavigation;
+import com.pages.skiutah.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -57,7 +54,7 @@ public class Challenge1OpenSkiUtah {
     }
 
     //Challenge 4 - Compare Times to get to resort
-    @Test(priority=4)
+    @Test(priority=4, enabled = false)
     //click on deals page
     public void AutomationChallenge4(){
         String navigateTo = "Resorts & Snow";
@@ -67,6 +64,21 @@ public class Challenge1OpenSkiUtah {
         topNavigation.navigateToSubMenu(navigateTo, subMenuNavigateTo);
         resortComparisonPage.selectComparisons(1);
         System.out.println(resortComparisonPage.getMilesToAirport("Alta Ski Area"));
+    }
+
+    //Challenge 5 - Use Search and Get Info
+    @Test(priority=5)
+    //click on deals page
+    public void AutomationChallenge5(){
+        driver.get("http://skiutah.com/members/listing");
+        TripPlannerPage tripPlannerPage = PageFactory.initElements(driver, TripPlannerPage.class);
+        tripPlannerPage.selectWhat("Sponsor");
+        tripPlannerPage.selectSubCategory("Sponsor");
+        tripPlannerPage.selectByResort("Snowbird");
+        tripPlannerPage.okButton.click();
+        tripPlannerPage.printSearchResults();
+
+
     }
 
     @AfterTest
