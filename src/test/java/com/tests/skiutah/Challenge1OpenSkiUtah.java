@@ -14,7 +14,9 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.IntStream;
 
 public class Challenge1OpenSkiUtah {
 
@@ -88,26 +90,37 @@ public class Challenge1OpenSkiUtah {
     public void AutomationChallenge6(){
         //*** This test navigates the entire site so the
         //*** page Object framework is ignored on this test.
-        crawl("http://skiutah.com");
+        List<String> visitedUrls = new ArrayList<String>();
+        crawl("http://skiutah.com", visitedUrls);
     }
 
-    private void crawl(String parentUrl){
+    private void crawl(String parentUrl, List<String> visitedUrls){
         driver.get(parentUrl);
-        By links = By.cssSelector("*[href^='http']");
+        By links = By.cssSelector("*:link,*[href^='http']");
         List<WebElement> Results = driver.findElements(links);
         List<String> urls = new ArrayList<String>();
+
         for (WebElement result : Results){
             System.out.println(result.getText());
             String url = result.getAttribute("href");
-            System.out.println(url);
-            urls.add(url);
+
+            if(visitedUrls.contains(url))
+            {
+                System.out.println("skipping " + url + " has already been visited");
+            }
+            else
+            {
+                System.out.println(url);
+                urls.add(url);
+            }
         }
 
         for (String url: urls) {
             //Do your stuff here
             System.out.println("visited:" + url);
             driver.get(url);
-            this.crawl(url);
+            visitedUrls.add(url);
+            this.crawl(url, visitedUrls);
         }
     }
 
