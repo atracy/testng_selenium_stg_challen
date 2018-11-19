@@ -13,6 +13,9 @@ import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Challenge1OpenSkiUtah {
 
     WebDriver driver;
@@ -67,7 +70,7 @@ public class Challenge1OpenSkiUtah {
     }
 
     //Challenge 5 - Use Search and Get Info
-    @Test(priority=5)
+    @Test(priority=5, enabled=false)
     //click on deals page
     public void AutomationChallenge5(){
         driver.get("http://skiutah.com/members/listing");
@@ -77,8 +80,35 @@ public class Challenge1OpenSkiUtah {
         tripPlannerPage.selectByResort("Snowbird");
         tripPlannerPage.okButton.click();
         tripPlannerPage.printSearchResults();
+    }
 
+    //Challenge 6 - Crawl Website
+    @Test(priority=6)
+    //Crawl the site
+    public void AutomationChallenge6(){
+        //*** This test navigates the entire site so the
+        //*** page Object framework is ignored on this test.
+        crawl("http://skiutah.com");
+    }
 
+    private void crawl(String parentUrl){
+        driver.get(parentUrl);
+        By links = By.cssSelector("*[href^='http']");
+        List<WebElement> Results = driver.findElements(links);
+        List<String> urls = new ArrayList<String>();
+        for (WebElement result : Results){
+            System.out.println(result.getText());
+            String url = result.getAttribute("href");
+            System.out.println(url);
+            urls.add(url);
+        }
+
+        for (String url: urls) {
+            //Do your stuff here
+            System.out.println("visited:" + url);
+            driver.get(url);
+            this.crawl(url);
+        }
     }
 
     @AfterTest
